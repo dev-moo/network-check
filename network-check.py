@@ -114,14 +114,27 @@ if __name__ == "__main__":
 	config.read(filepath)
 
 	
+	lanEnabled = config.get('config', 'lanEnabled')	
+	wlanEnabled = config.get('config', 'wlanEnabled')	
 	routerIP = config.get('config', 'routerIP')	
 	ethIP = config.get('config', 'ethIP')
 	wlanIP = config.get('config', 'wlanIP')
 	ethName = config.get('config', 'lanname')
 	wlanName = config.get('config', 'wlanname')
+		
+	
+	if lanEnabled == 'True':
+		lanEnabled = True
+	else:
+		lanEnabled = False
+	
+	if wlanEnabled == 'True':
+		wlanEnabled = True
+	else:
+		wlanEnabled = False
 	
 	print "Checking ethernet"
-	if Check_Interface(routerIP, ethIP, ethName) == False:
+	if lanEnabled and Check_Interface(routerIP, ethIP, ethName) == False:
 		Restore_Connection(routerIP, ethIP, ethName)
 	else:
 		print "Ethernet is up"
@@ -129,7 +142,7 @@ if __name__ == "__main__":
 	print ""
 	
 	print "Checking WIFI"	
-	if Check_Interface(routerIP, wlanIP, wlanName) == False:
+	if wlanEnabled and Check_Interface(routerIP, wlanIP, wlanName) == False:
 		Restore_Connection(routerIP, wlanIP, wlanName)	
 	else:
 		print "WIFI is up"
